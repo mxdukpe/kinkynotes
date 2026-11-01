@@ -1721,6 +1721,7 @@ function init() {
     else if (openView) closeCurrent();
   });
   setSync('local');
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch {}
   setInterval(() => { if (!openView) renderHome(); }, 60000);
   connectRemote();
 }
