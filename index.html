@@ -15,8 +15,8 @@
 <meta name="theme-color" content="#a8352b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:opsz,wght@9..144,400..700&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,arrow_back,brush,check,checklist,chevron_right,close,cloud_done,content_copy,contrast,dark_mode,delete,delete_sweep,download,draw,image,ink_eraser,ink_highlighter,ink_pen,light_mode,palette,picture_as_pdf,push_pin,redo,search,settings,share,smartphone,sticky_note_2,undo,upload&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:opsz,wght@9..144,400..900&family=JetBrains+Mono:wght@400..800&family=Nunito:wght@400..1000&family=Outfit:wght@400..900&family=Permanent+Marker&family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alarm,arrow_back,brush,check,checklist,chevron_right,close,cloud_done,content_copy,contrast,dark_mode,date_range,delete,delete_sweep,download,draw,event,image,ink_eraser,ink_highlighter,ink_pen,light_mode,notifications,palette,picture_as_pdf,push_pin,redo,repeat,schedule,search,settings,share,smartphone,sticky_note_2,task_alt,undo,upload,wb_sunny,wb_twilight&display=block">
 <style>
 /* Layout: app-shell à une colonne (max 760px), grille maçonnée de cartes, vues plein écran pour l'édition, barres flottantes M3 Expressive. */
 :root{
@@ -51,6 +51,10 @@
   --f-ui: "Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-serif: "Fraunces", Georgia, "Times New Roman", serif;
   --f-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --f-round: "Nunito", ui-rounded, system-ui, sans-serif;
+  --f-geo: "Outfit", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --f-marker: "Permanent Marker", "Marker Felt", "Comic Sans MS", cursive;
 
   --e-fast: cubic-bezier(.42, 1.67, .21, .90);
   --e-spatial: cubic-bezier(.38, 1.21, .22, 1.00);
@@ -196,6 +200,14 @@ input, textarea{ font: inherit; color: inherit; }
 .mini{ list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 5px; }
 .mini li{ display: flex; gap: 8px; align-items: flex-start; font-size: 14px; line-height: 1.3; color: var(--fg); overflow-wrap: anywhere; min-width: 0; }
 .card.f-hand .mini li{ font-family: var(--f-hand); font-size: 19px; line-height: 1.05; }
+.card.f-round h3, .card.f-round p, .card.f-round .mini li{ font-family: var(--f-round); font-variation-settings: normal; }
+.card.f-round h3{ font-weight: 850; }
+.card.f-mono h3, .card.f-mono p, .card.f-mono .mini li{ font-family: var(--f-mono); font-variation-settings: normal; letter-spacing: -.01em; }
+.card.f-mono h3{ font-size: 15.5px; font-weight: 750; }
+.card.f-mono p, .card.f-mono .mini li{ font-size: 12.5px; }
+.card.f-marker h3, .card.f-marker p, .card.f-marker .mini li{ font-family: var(--f-marker); font-variation-settings: normal; font-weight: 400; }
+.card.f-marker h3{ font-size: 18px; line-height: 1.2; }
+.card.f-marker p, .card.f-marker .mini li{ font-size: 13.5px; }
 .mini .mb{ width: 14px; height: 14px; border-radius: 4px; border: 2px solid var(--fg2); flex: none; margin-top: 2px; display: grid; place-items: center; }
 .mini li.d{ color: var(--fg2); text-decoration: line-through; }
 .mini li.d .mb{ background: var(--primary); border-color: var(--primary); }
@@ -206,6 +218,36 @@ input, textarea{ font: inherit; color: inherit; }
 .prog{ display: inline-flex; align-items: center; gap: 6px; }
 .prog i{ display: block; width: 34px; height: 4px; border-radius: 2px; background: color-mix(in oklch, var(--fg) 14%, transparent); overflow: hidden; }
 .prog i b{ display: block; height: 100%; background: var(--primary); border-radius: 2px; }
+.rem-chip{
+  display: inline-flex; align-items: center; gap: 6px; max-width: 100%; min-width: 0;
+  margin-top: 10px; padding: 6px 11px 6px 8px; border-radius: 12px;
+  font: 620 12.5px/1.1 var(--f-ui); font-variation-settings: normal; letter-spacing: 0;
+  background: var(--tertiary-c); color: var(--on-tertiary-c); font-variant-numeric: tabular-nums;
+  transition: border-radius .4s var(--e-fast);
+}
+.rem-chip span:last-child{ min-width: 0; overflow-wrap: anywhere; }
+.rem-chip .ms{ align-self: flex-start; }
+.rem-chip .ms{ font-size: 16px; }
+.rem-chip.due{ background: var(--danger-c); color: var(--danger); }
+button.rem-chip{ margin: 0; cursor: pointer; }
+button.rem-chip:active{ border-radius: 6px; }
+.card.f-hand .rem-chip, .card.f-marker .rem-chip{ font-family: var(--f-ui); }
+.qchips{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.qc{
+  display: flex; align-items: center; gap: 10px; min-width: 0; text-align: left;
+  padding: 12px 14px; border-radius: 18px; background: var(--s3);
+  transition: border-radius .45s var(--e-fast), background .2s;
+}
+.qc .ms{ color: var(--primary); }
+.qc b{ display: block; font-weight: 640; font-size: 14px; }
+.qc small{ display: block; color: var(--fg2); font-size: 12.5px; margin-top: 1px; font-variant-numeric: tabular-nums; }
+.qc span:last-child{ min-width: 0; }
+.qc[aria-pressed="true"]{ background: var(--secondary-c); color: var(--on-secondary-c); border-radius: 28px; box-shadow: inset 0 0 0 2px var(--primary); }
+.qc:active{ border-radius: 10px; }
+.notif-box{ margin-top: 18px; padding: 14px 16px; border-radius: 20px; background: var(--s2); display: grid; gap: 10px; }
+.notif-box p{ margin: 0; font-size: 13.5px; color: var(--fg2); }
+.notif-box p b{ color: var(--fg); font-weight: 640; }
+.notif-box .btn{ justify-self: start; height: 40px; }
 .pin-dot{ color: var(--primary); }
 .pin-dot .ms{ font-size: 18px; }
 
@@ -289,14 +331,20 @@ input, textarea{ font: inherit; color: inherit; }
 .page.tinted{ background: oklch(var(--nPaper) calc(var(--nC) * .5) var(--nh)); }
 .page.f-serif{ --ff: var(--f-serif); --fs: 17px; }
 .page.f-hand{ --ff: var(--f-hand); --fs: 23px; --lh: 30px; }
+.page.f-round{ --ff: var(--f-round); --fs: 17px; }
+.page.f-mono{ --ff: var(--f-mono); --fs: 14.5px; }
+.page.f-marker{ --ff: var(--f-marker); --fs: 17.5px; --lh: 30px; }
 .ed-title{
   display: block; width: 100%; border: 0; background: transparent; outline: none; resize: none; overflow: hidden;
   font: 760 28px/1.15 var(--f-ui); font-variation-settings: "wdth" 112, "opsz" 32; letter-spacing: -.01em; color: var(--fg); padding: 0;
 }
 .page.f-serif .ed-title{ font-family: var(--f-serif); font-weight: 620; font-variation-settings: normal; }
 .page.f-hand .ed-title{ font-family: var(--f-hand); font-weight: 700; font-size: 38px; line-height: 1; font-variation-settings: normal; }
+.page.f-round .ed-title{ font-family: var(--f-round); font-weight: 850; font-variation-settings: normal; }
+.page.f-mono .ed-title{ font-family: var(--f-mono); font-weight: 760; font-size: 24px; letter-spacing: -.02em; font-variation-settings: normal; }
+.page.f-marker .ed-title{ font-family: var(--f-marker); font-weight: 400; font-size: 29px; line-height: 1.2; font-variation-settings: normal; }
 .ed-title::placeholder, .ed-body::placeholder, .it-text::placeholder{ color: var(--fg2); opacity: .7; }
-.ed-meta{ margin: 8px 0 14px; font-size: 12.5px; color: var(--fg2); display: flex; gap: 10px; flex-wrap: wrap; }
+.ed-meta{ margin: 8px 0 14px; font-size: 12.5px; color: var(--fg2); display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .ed-body{
   display: block; width: 100%; border: 0; outline: none; resize: none; overflow: hidden; padding: 0;
   min-height: calc(var(--lh) * 4);
@@ -409,7 +457,7 @@ input, textarea{ font: inherit; color: inherit; }
 .tile[aria-pressed="true"]{ background: var(--secondary-c); color: var(--on-secondary-c); border-radius: 30px; box-shadow: inset 0 0 0 2px var(--primary); }
 .tiles.t4{ grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .tile .pv{ width: 100%; max-width: 56px; height: 44px; border-radius: 10px; background-color: var(--bg); --lh: 9px; }
-.tile .aa{ height: 44px; display: grid; place-items: center; font-size: 30px; line-height: 1; }
+.tile .aa{ height: 44px; display: grid; place-items: center; font-size: 30px; line-height: 1; font-variation-settings: normal; }
 .tile .pdfthumb{ width: 46px; height: 60px; border-radius: 6px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--outline-v); overflow: hidden; display: block; }
 .seeds{ display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
 .seed{ display: grid; justify-items: center; gap: 6px; padding: 10px 4px; border-radius: 22px; font-size: 13px; font-weight: 600; transition: background .2s, border-radius .45s var(--e-fast); }
@@ -467,7 +515,7 @@ input, textarea{ font: inherit; color: inherit; }
 <div class="wrap" id="home">
   <header class="hero">
     <div class="hero-row">
-      <span class="eyebrow">mxdukpè</span>
+      <span class="eyebrow" id="eyebrow">mon carnet</span>
       <button class="icon-btn" id="btnSettings" aria-label="Réglages"><span class="ms">settings</span></button>
     </div>
     <div class="applique" id="applique" aria-hidden="true"></div>
@@ -503,6 +551,7 @@ input, textarea{ font: inherit; color: inherit; }
     <button class="icon-btn" id="edBack" aria-label="Retour"><span class="ms">arrow_back</span></button>
     <div class="grow"></div>
     <span class="sync" id="edSync"></span>
+    <button class="icon-btn" id="edRem" aria-pressed="false" aria-label="Rappel"><span class="ms">alarm</span></button>
     <button class="icon-btn" id="edPin" aria-pressed="false" aria-label="Épingler"><span class="ms">push_pin</span></button>
   </div>
   <div class="ed-scroll" id="edScroll">
@@ -585,7 +634,17 @@ const TINTS = [
   { id: 148, name: 'Feuille' }, { id: 195, name: 'Lagune' }, { id: 250, name: 'Ciel' }, { id: 285, name: 'Indigo' }, { id: 340, name: 'Prune' },
 ];
 const PAPERS = [ { id: 'plain', name: 'Uni' }, { id: 'lines', name: 'Lignes' }, { id: 'grid', name: 'Carreaux' }, { id: 'dots', name: 'Points' } ];
-const FONTS = { flex: { name: 'Flex', css: 'var(--f-ui)' }, serif: { name: 'Serif', css: 'var(--f-serif)' }, hand: { name: 'Manuscrite', css: 'var(--f-hand)' } };
+const FONTS = {
+  flex: { name: 'Standard', css: 'var(--f-ui)' }, serif: { name: 'Serif', css: 'var(--f-serif)' }, hand: { name: 'Manuscrite', css: 'var(--f-hand)' },
+  round: { name: 'Arrondie', css: 'var(--f-round)' }, mono: { name: 'Machine', css: 'var(--f-mono)' }, marker: { name: 'Feutre', css: 'var(--f-marker)' },
+};
+const UI_FONTS = {
+  flex:  { name: 'Flex',       css: '"Roboto Flex", system-ui, -apple-system, "Segoe UI", sans-serif', w: 700 },
+  round: { name: 'Arrondie',   css: 'var(--f-round)', w: 850 },
+  geo:   { name: 'Géométrique', css: 'var(--f-geo)', w: 700 },
+  serif: { name: 'Éditoriale', css: 'var(--f-serif)', w: 650 },
+  mono:  { name: 'Machine',    css: 'var(--f-mono)', w: 700 },
+};
 const PDF_STYLES = [ { id: 'editorial', name: 'Éditorial' }, { id: 'carnet', name: 'Carnet' }, { id: 'minimal', name: 'Minimal' } ];
 const INKS = ['#201a1b', '#b3261e', '#e8742a', '#f0b429', '#2e8b57', '#138a8a', '#2f6fd1', '#4b3fb5', '#a03b78', '#ffffff'];
 const SIZES = [4, 9, 18];
@@ -624,14 +683,14 @@ function canvasShape(ctx, kind, cx, cy, R, rot = 0) {
 
 /* ================= État & stockage ================= */
 const LS = 'carnet.mxdukpe.v1';
-const DEFAULT_SETTINGS = { seed: 'rouge', mode: 'auto', signature: 'Mxdukpè', fmt: 'pdf', inter: true, includeDone: true };
+const DEFAULT_SETTINGS = { seed: 'rouge', mode: 'auto', signature: '', uiFont: 'flex', fmt: 'pdf', inter: true, includeDone: true };
 let S = { notes: {}, tombs: {}, settings: { ...DEFAULT_SETTINGS } };
 const UI = { filter: 'all', q: '', cur: null };
 
 function normalize(n) {
   return Object.assign({
     id: newId(), type: 'note', title: '', body: '', items: [], drawing: null,
-    tint: 'none', paper: 'lines', font: 'flex', pdfStyle: 'editorial', pinned: false,
+    tint: 'none', paper: 'lines', font: 'flex', pdfStyle: 'editorial', pinned: false, reminder: null,
     createdAt: now(), updatedAt: now(), example: false,
   }, n);
 }
@@ -744,7 +803,9 @@ function seedExamples() {
     body: 'Touche + pour créer une note, une liste ou un dessin.\nChaque note a sa propre apparence : couleur, papier, écriture et style de PDF.\nQuand tu partages une liste en PDF, les cases restent cochables pour la personne qui le reçoit.\n\nCes exemples sont là pour te montrer le rendu. Supprime-les quand tu veux.',
     createdAt: t - 60000, updatedAt: t - 60000 });
   const mk = (text, done) => ({ id: newId('i'), text, done });
+  const tmr = new Date(); tmr.setDate(tmr.getDate() + 1); tmr.setHours(10, 0, 0, 0);
   const b = normalize({ id: newId(), type: 'list', example: true, tint: 148, paper: 'grid', font: 'hand', pinned: true,
+    reminder: { at: tmr.getTime(), repeat: 'week', fired: false },
     title: 'Courses de la semaine', body: '',
     items: [mk('Riz parfumé', false), mk('Plantains bien mûrs', true), mk('Tomates et oignons', false), mk('Piment frais', false), mk('Gari', true), mk('Lait de coco', false)],
     createdAt: t - 120000, updatedAt: t - 30000 });
@@ -757,6 +818,8 @@ function applyTheme() {
   const seed = SEEDS[S.settings.seed] || SEEDS.rouge, root = document.documentElement;
   root.style.setProperty('--h', seed.h); root.style.setProperty('--h3', seed.h3);
   if (S.settings.mode === 'auto') delete root.dataset.mode; else root.dataset.mode = S.settings.mode;
+  root.style.setProperty('--f-ui', (UI_FONTS[S.settings.uiFont] || UI_FONTS.flex).css);
+  const eb = $('#eyebrow'); if (eb) eb.textContent = (S.settings.signature || '').trim() || 'mon carnet';
   $('#applique').innerHTML = `<svg viewBox="0 0 150 150">
     <g class="spin"><path d="${shapePath('cookie', 94, 46, 44)}" fill="var(--primary)"/></g>
     <g class="spin2"><path d="${shapePath('clover', 44, 104, 34)}" fill="var(--tertiary-c)"/></g>
@@ -805,6 +868,7 @@ function cardHTML(n) {
     <div class="card-top"><span class="badge">${shapeSVG(BADGE_SHAPE[k])}<span class="ms">${KIND_ICON[k]}</span></span>
     ${n.example ? '<span class="chip-ex">Exemple</span>' : n.pinned ? '<span class="pin-dot"><span class="ms fill">push_pin</span></span>' : ''}</div>
     ${n.title.trim() ? `<h3>${esc(n.title)}</h3>` : ''}${inner}
+    ${remChip(n)}
     <div class="card-meta"><span>${relDate(n.updatedAt)}</span>${prog}</div></button>`;
 }
 function renderHome() {
@@ -812,13 +876,15 @@ function renderHome() {
   const notes = all.filter(matches).sort((a, b) => (b.pinned - a.pinned) || (b.updatedAt - a.updatedAt));
   const counts = { note: 0, list: 0, drawing: 0 }; all.forEach(n => counts[kindOf(n)]++);
   $('#heroSub').innerHTML = `${cap(fmtLong.format(new Date()))} · <b>${all.length}</b> élément${all.length > 1 ? 's' : ''}`;
-  const pinned = notes.filter(n => n.pinned), rest = notes.filter(n => !n.pinned);
+  const withRem = notes.filter(n => n.reminder).sort((a, b) => a.reminder.at - b.reminder.at);
+  const pinned = notes.filter(n => n.pinned && !n.reminder), rest = notes.filter(n => !n.pinned && !n.reminder);
   let html = '';
   if (!notes.length) {
     html = `<div class="empty">${shapeSVG(UI.q ? 'flower' : 'cookie')}<strong>${UI.q ? 'Aucun résultat' : 'Rien ici pour l’instant'}</strong>${UI.q ? 'Essaie un autre mot.' : 'Touche le bouton + pour commencer.'}</div>`;
   } else {
+    if (withRem.length) html += `<div class="sec-label"><span class="ms fill">alarm</span>Rappels</div><div class="cols">${withRem.map(cardHTML).join('')}</div>`;
     if (pinned.length) html += `<div class="sec-label"><span class="ms fill">push_pin</span>Épinglées</div><div class="cols">${pinned.map(cardHTML).join('')}</div>`;
-    if (rest.length) html += `${pinned.length ? '<div class="sec-label">Le reste</div>' : '<div class="sec-label">Récentes</div>'}<div class="cols">${rest.map(cardHTML).join('')}</div>`;
+    if (rest.length) html += `${pinned.length || withRem.length ? '<div class="sec-label">Le reste</div>' : '<div class="sec-label">Récentes</div>'}<div class="cols">${rest.map(cardHTML).join('')}</div>`;
   }
   $('#list').innerHTML = html;
   $$('canvas[data-thumb]').forEach(cv => {
@@ -879,7 +945,7 @@ function autoGrow(el) { el.style.height = 'auto'; el.style.height = el.scrollHei
 function applyPageStyle(el, n, paperTarget) {
   el.classList.toggle('tinted', n.tint !== 'none');
   if (n.tint !== 'none') el.style.setProperty('--nh', n.tint); else el.style.removeProperty('--nh');
-  el.classList.remove('f-flex', 'f-serif', 'f-hand'); el.classList.add('f-' + n.font);
+  Object.keys(FONTS).forEach(k => el.classList.remove('f-' + k)); el.classList.add('f-' + (FONTS[n.font] ? n.font : 'flex'));
   if (paperTarget) { paperTarget.className = paperTarget.className.replace(/\bpaper-\w+/g, '').trim() + ' paper-' + n.paper; }
 }
 function fillEditor(n) {
@@ -887,7 +953,7 @@ function fillEditor(n) {
   applyPageStyle(page, n, $('#edBody'));
   $('#edTitle').value = n.title; $('#edBody').value = n.body;
   $('#edPin').setAttribute('aria-pressed', n.pinned);
-  $('#edMeta').textContent = 'Modifiée ' + relDate(n.updatedAt).toLowerCase() + (n.example ? ' · exemple' : '');
+  renderEdMeta(n);
   setSync(R.col ? 'cloud' : 'local');
   renderItems(n);
   $('#edScroll').scrollTop = 0;
@@ -937,6 +1003,8 @@ function bindEditor() {
   $('#edTitle').addEventListener('input', e => { const n = cur(); n.title = e.target.value.replace(/\n/g, ' '); autoGrow(e.target); touch(n, { silent: true }); });
   $('#edTitle').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('#edBody').focus(); } });
   $('#edBody').addEventListener('input', e => { const n = cur(); n.body = e.target.value; autoGrow(e.target); touch(n, { silent: true }); });
+  $('#edRem').onclick = () => reminderSheet(cur());
+  $('#edMeta').addEventListener('click', e => { if (e.target.closest('.rem-chip')) reminderSheet(cur()); });
   $('#edPin').onclick = () => { const n = cur(); n.pinned = !n.pinned; $('#edPin').setAttribute('aria-pressed', n.pinned); touch(n); snack(n.pinned ? 'Épinglée en haut de ton carnet' : 'Désépinglée'); };
   $('#edList').onclick = () => {
     const n = cur();
@@ -1212,7 +1280,7 @@ function styleSheet(n) {
     <p class="lead">${isDraw ? 'Couleur et papier de ton dessin.' : 'S’applique à cette note et à ses exports.'}</p>
     <div class="field"><div class="flabel">Couleur</div><div class="swatches">${TINTS.map(t => `<button type="button" class="sw ${t.id === 'none' ? 'none' : ''}" ${t.id !== 'none' ? `style="--nh:${t.id}"` : ''} data-tint="${t.id}" aria-pressed="${String(n.tint) === String(t.id)}" aria-label="${t.name}"><span class="ms">check</span></button>`).join('')}</div></div>
     <div class="field"><div class="flabel">Papier</div><div class="tiles t4">${PAPERS.map(p => `<button type="button" class="tile" data-paper="${p.id}" aria-pressed="${n.paper === p.id}"><span class="pv paper-${p.id}"></span>${p.name}</button>`).join('')}</div></div>
-    ${isDraw ? '' : `<div class="field"><div class="flabel">Écriture</div><div class="tiles">${Object.entries(FONTS).map(([k, f]) => `<button type="button" class="tile" data-font="${k}" aria-pressed="${n.font === k}"><span class="aa" style="font-family:${f.css};${k === 'flex' ? 'font-weight:700;font-variation-settings:\'wdth\' 120' : ''}${k === 'hand' ? ';font-size:36px' : ''}">Aa</span>${f.name}</button>`).join('')}</div></div>`}
+    ${isDraw ? '' : `<div class="field"><div class="flabel">Écriture</div><div class="tiles">${Object.entries(FONTS).map(([k, f]) => `<button type="button" class="tile" data-font="${k}" aria-pressed="${n.font === k}"><span class="aa" style="font-family:${f.css};${({ flex: 'font-weight:700', serif: 'font-weight:600', hand: 'font-weight:700;font-size:36px', round: 'font-weight:850', mono: 'font-weight:700;font-size:26px', marker: 'font-size:26px' })[k] || ''}">Aa</span>${f.name}</button>`).join('')}</div></div>`}
     <div class="field"><div class="flabel">Style du PDF</div><div class="tiles">${PDF_STYLES.map(p => `<button type="button" class="tile" data-pdf="${p.id}" aria-pressed="${n.pdfStyle === p.id}">${pdfThumb(p.id, noteHue(n))}${p.name}</button>`).join('')}</div></div>
     ${isDraw ? `<div class="danger-row"><button type="button" class="btn tonal" id="stClear"><span class="ms">delete_sweep</span>Effacer le dessin</button><button type="button" class="btn danger" id="stDelete"><span class="ms">delete</span>Supprimer</button></div>` : ''}`;
   const mount = body => {
@@ -1246,10 +1314,20 @@ function pal(n) {
     ink: ok(.22, .02, hue), muted: ok(.52, .025, hue), tert: ok(.82, .13, seed.h3), tert2: ok(.62, .14, seed.h3),
   };
 }
+/* [famille, taille, interligne, graisse titre, taille titre, graisse texte] */
+const PDF_FONT = {
+  flex:   ['"Roboto Flex", Helvetica, Arial, sans-serif', 11, 18.5, '800', 28],
+  round:  ['"Nunito", Helvetica, Arial, sans-serif', 11.5, 19, '850', 28],
+  geo:    ['"Outfit", Helvetica, Arial, sans-serif', 11.5, 19, '700', 28],
+  serif:  ['"Fraunces", Georgia, serif', 11.5, 19, '620', 28],
+  mono:   ['"JetBrains Mono", Menlo, Courier, monospace', 9.8, 18, '760', 22],
+  hand:   ['"Caveat", "Segoe Print", cursive', 17, 22, '700', 34, 500],
+  marker: ['"Permanent Marker", "Marker Felt", cursive', 12, 22, '400', 25],
+};
 function bodyFont(n) {
-  if (n.font === 'hand') return { fam: '"Caveat", "Segoe Print", cursive', size: 17, w: 500, lh: 22, title: ['700', 34, '"Caveat", cursive'] };
-  if (n.font === 'serif') return { fam: '"Fraunces", Georgia, serif', size: 11.5, w: 400, lh: 19, title: ['620', 28, '"Fraunces", Georgia, serif'] };
-  return { fam: '"Roboto Flex", Helvetica, Arial, sans-serif', size: 11, w: 400, lh: 18.5, title: ['800', 28, '"Roboto Flex", Helvetica, Arial, sans-serif'] };
+  const key = n.font === 'flex' || !PDF_FONT[n.font] ? (PDF_FONT[S.settings.uiFont] ? S.settings.uiFont : 'flex') : n.font;
+  const f = PDF_FONT[key];
+  return { fam: f[0], size: f[1], lh: f[2], w: f[5] || 400, title: [f[3], f[4], f[0]] };
 }
 const F = (w, s, fam) => `${w} ${s}px ${fam}`;
 async function fontsReady(n) {
@@ -1633,6 +1711,212 @@ function shareSheet(n) {
   });
 }
 
+/* ================= Rappels ================= */
+const fmtDay = new Intl.DateTimeFormat('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+const REPEAT = { none: 'Jamais', day: 'Chaque jour', week: 'Chaque semaine', month: 'Chaque mois' };
+const REPEAT_SHORT = { day: 'chaque jour', week: 'chaque semaine', month: 'chaque mois' };
+function remLabel(ts) {
+  const d = new Date(ts), t = new Date();
+  const day = new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime();
+  const that = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const diff = Math.round((that - day) / 864e5), hm = fmtTime.format(d);
+  if (diff === 0) return "Aujourd'hui, " + hm;
+  if (diff === 1) return 'Demain, ' + hm;
+  if (diff === -1) return 'Hier, ' + hm;
+  return fmtDay.format(d).replace(/\./g, '') + ', ' + hm;
+}
+function remShort(ts) {
+  const d = new Date(ts), t = new Date(), hm = fmtTime.format(d);
+  if (d.toDateString() === t.toDateString()) return hm;
+  const tm = new Date(t); tm.setDate(t.getDate() + 1);
+  if (d.toDateString() === tm.toDateString()) return 'demain ' + hm;
+  return fmtDay.format(d).replace(/\./g, '');
+}
+const isDue = n => !!(n.reminder && n.reminder.at <= now());
+function remChip(n, asButton) {
+  const r = n.reminder; if (!r) return '';
+  const due = isDue(n), tag = asButton ? 'button type="button"' : 'span';
+  const txt = (due ? 'En retard · ' + remShort(r.at) : remLabel(r.at)) + (r.repeat && r.repeat !== 'none' ? ' · ' + REPEAT_SHORT[r.repeat] : '');
+  return `<${tag} class="rem-chip${due ? ' due' : ''}"${asButton ? ' aria-label="Modifier le rappel"' : ''}><span class="ms${due ? ' fill' : ''}">alarm</span><span>${esc(txt)}</span></${asButton ? 'button' : 'span'}>`;
+}
+function renderEdMeta(n) {
+  $('#edMeta').innerHTML = `<span>${esc('Modifiée ' + relDate(n.updatedAt).toLowerCase() + (n.example ? ' · exemple' : ''))}</span>${remChip(n, true)}`;
+  $('#edRem').setAttribute('aria-pressed', !!n.reminder);
+}
+function nextOcc(at, rep) {
+  const d = new Date(at);
+  if (rep === 'day') d.setDate(d.getDate() + 1);
+  else if (rep === 'week') d.setDate(d.getDate() + 7);
+  else if (rep === 'month') d.setMonth(d.getMonth() + 1);
+  return d.getTime();
+}
+const pad2 = v => String(v).padStart(2, '0');
+const toLocalInput = ts => { const d = new Date(ts); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`; };
+function quickTimes() {
+  const t = new Date(), out = [];
+  const inH = new Date(t.getTime() + 36e5); inH.setSeconds(0, 0); inH.setMinutes(Math.ceil(inH.getMinutes() / 5) * 5);
+  out.push({ id: 'h1', icon: 'schedule', label: 'Dans 1 h', at: inH.getTime() });
+  const eve = new Date(t); eve.setHours(19, 0, 0, 0);
+  if (t.getHours() * 60 + t.getMinutes() > 18 * 60 + 30) eve.setDate(eve.getDate() + 1);
+  out.push({ id: 'eve', icon: 'wb_twilight', label: eve.getDate() === t.getDate() ? 'Ce soir' : 'Demain soir', at: eve.getTime() });
+  const mor = new Date(t); mor.setDate(mor.getDate() + 1); mor.setHours(9, 0, 0, 0);
+  out.push({ id: 'mor', icon: 'wb_sunny', label: 'Demain matin', at: mor.getTime() });
+  const wk = new Date(t); wk.setDate(wk.getDate() + 7); wk.setHours(9, 0, 0, 0);
+  out.push({ id: 'wk', icon: 'date_range', label: 'Dans 7 jours', at: wk.getTime() });
+  return out;
+}
+const notifState = () => ('Notification' in window) ? Notification.permission : 'unsupported';
+const isIOS = () => /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isStandalone = () => { try { return matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch { return false; } };
+function notifBoxHTML() {
+  const st = notifState();
+  let msg, btn = '';
+  if (st === 'granted') msg = '<b>Notifications activées.</b> Sur iPhone, une web-app ne peut pas te notifier quand elle est complètement fermée : pour une alerte garantie, ajoute aussi le rappel à ton calendrier.';
+  else if (st === 'denied') msg = '<b>Notifications bloquées.</b> Tu peux les réactiver dans Réglages → Notifications → Carnet. En attendant, le rappel s’affiche dans l’app et tu peux l’ajouter à ton calendrier.';
+  else if (st === 'unsupported') msg = isIOS() && !isStandalone()
+    ? '<b>Ouvre Carnet depuis son icône</b> sur ton écran d’accueil pour pouvoir activer les notifications. Le calendrier, lui, marche partout.'
+    : '<b>Ce navigateur n’affiche pas de notifications.</b> Le rappel apparaîtra dans l’app, et le calendrier te préviendra à coup sûr.';
+  else { msg = '<b>Reçois une notification à l’heure du rappel.</b> Elle s’affiche quand Carnet est ouvert ou en arrière-plan. Pour une alerte même app fermée, ajoute le rappel à ton calendrier.'; btn = '<button type="button" class="btn tonal" id="remNotif"><span class="ms">notifications</span>Activer les notifications</button>'; }
+  return `<p>${msg}</p>${btn}`;
+}
+async function askNotif() {
+  if (notifState() !== 'default') return notifState();
+  try { return await Notification.requestPermission(); } catch { return notifState(); }
+}
+function reminderSheet(n) {
+  if (!n) return;
+  const r0 = n.reminder;
+  let at = r0 ? r0.at : quickTimes()[2].at, rep = r0 ? (r0.repeat || 'none') : 'none';
+  const html = `
+    <h2>Rappel</h2>
+    <p class="lead">${esc((n.title || '').trim() || 'Cette note')}</p>
+    ${r0 && isDue(n) ? `<div class="sheet-actions" style="margin:4px 0 6px"><button type="button" class="btn filled" id="remDone"><span class="ms">task_alt</span>C’est fait</button></div>` : ''}
+    <div class="field"><div class="flabel">Raccourcis</div><div class="qchips" id="remQuick"></div></div>
+    <div class="field"><label class="flabel" for="remAt">Date et heure</label><input class="tfield" type="datetime-local" id="remAt"></div>
+    <div class="field"><div class="flabel">Répéter</div><div class="bgroup" id="remRep" role="group" aria-label="Répéter">
+      ${Object.entries({ none: 'Jamais', day: 'Jour', week: 'Semaine', month: 'Mois' }).map(([k, v]) => `<button type="button" data-rep="${k}">${v}</button>`).join('')}</div></div>
+    <div class="notif-box" id="remNotifBox">${notifBoxHTML()}</div>
+    <div class="sheet-actions">
+      <button type="button" class="btn tonal" id="remCal"><span class="ms">event</span>Ajouter au calendrier</button>
+      <button type="button" class="btn filled big" id="remSave"><span class="ms">alarm</span>${r0 ? 'Mettre à jour' : 'Programmer'}</button>
+    </div>
+    ${r0 ? '<div class="danger-row"><button type="button" class="btn danger" id="remDel"><span class="ms">delete</span>Retirer le rappel</button></div>' : ''}
+    <p class="hint" id="remHint"></p>`;
+  const sync = () => {
+    $('#remAt').value = toLocalInput(at);
+    $('#remQuick').innerHTML = quickTimes().map(q => `<button type="button" class="qc" data-at="${q.at}" aria-pressed="${q.at === at}"><span class="ms">${q.icon}</span><span><b>${q.label}</b><small>${q.id === 'wk' ? remShort(q.at) : fmtTime.format(new Date(q.at))}</small></span></button>`).join('');
+    $$('#remRep [data-rep]').forEach(b => b.setAttribute('aria-pressed', b.dataset.rep === rep));
+  };
+  const save = () => {
+    n.reminder = { at, repeat: rep, fired: false };
+    touch(n); renderEdMeta(n); scheduleReminders();
+  };
+  openSheet(html, body => {
+    sync();
+    body.addEventListener('click', async e => {
+      const q = e.target.closest('[data-at]'), rp = e.target.closest('[data-rep]');
+      if (q) { at = +q.dataset.at; sync(); return; }
+      if (rp) { rep = rp.dataset.rep; sync(); return; }
+      if (e.target.closest('#remNotif')) { await askNotif(); $('#remNotifBox').innerHTML = notifBoxHTML(); return; }
+      if (e.target.closest('#remSave')) {
+        if (at <= now() + 30e3) { $('#remHint').textContent = 'Choisis une heure dans le futur.'; return; }
+        save(); await askNotif(); closeSheet();
+        snack('Rappel programmé · ' + remLabel(at));
+        return;
+      }
+      if (e.target.closest('#remCal')) {
+        if (at <= now() + 30e3) { $('#remHint').textContent = 'Choisis une heure dans le futur.'; return; }
+        if (!n.reminder || n.reminder.at !== at || (n.reminder.repeat || 'none') !== rep) save();
+        const r = await addToCalendar(n);
+        $('#remHint').textContent = r === 'fail' ? 'Impossible d’ouvrir le calendrier depuis cette fenêtre.' : r === 'cancel' ? '' : 'Ouvre le fichier et touche « Ajouter » pour l’enregistrer dans ton calendrier.';
+        return;
+      }
+      if (e.target.closest('#remDel') || e.target.closest('#remDone')) {
+        const done = !!e.target.closest('#remDone');
+        const old = n.reminder;
+        if (done && old.repeat && old.repeat !== 'none') { let a = old.at; while (a <= now()) a = nextOcc(a, old.repeat); n.reminder = { ...old, at: a, fired: false }; }
+        else n.reminder = null;
+        touch(n); renderEdMeta(n); scheduleReminders(); closeSheet();
+        snack(done ? (n.reminder ? 'Fait · prochain ' + remLabel(n.reminder.at).toLowerCase() : 'Rappel terminé') : 'Rappel retiré', 'Annuler', () => { n.reminder = old; touch(n); if (UI.cur === n.id) renderEdMeta(n); scheduleReminders(); });
+      }
+    });
+    body.addEventListener('change', e => {
+      if (e.target.id !== 'remAt' || !e.target.value) return;
+      const v = new Date(e.target.value).getTime(); if (!isNaN(v)) { at = v; sync(); $('#remHint').textContent = ''; }
+    });
+  });
+}
+
+/* Calendrier (.ics) : alerte native de l'iPhone, même app fermée */
+const icsEsc = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+const icsDate = ts => new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+function icsFold(line) {
+  const enc = new TextEncoder(), out = []; let cur = '', bytes = 0;
+  for (const ch of line) { const b = enc.encode(ch).length; if (bytes + b > 73) { out.push(cur); cur = ' ' + ch; bytes = 1 + b; } else { cur += ch; bytes += b; } }
+  out.push(cur); return out.join('\r\n');
+}
+function makeICS(n) {
+  const r = n.reminder, title = (n.title || '').trim() || 'Rappel Carnet';
+  const desc = [n.body.trim(), ...n.items.filter(i => !i.done).map(i => '☐ ' + i.text)].filter(Boolean).join('\n').slice(0, 600);
+  const rule = { day: 'FREQ=DAILY', week: 'FREQ=WEEKLY', month: 'FREQ=MONTHLY' }[r.repeat];
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Carnet//Rappels//FR', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT', `UID:${n.id}@carnet`, `DTSTAMP:${icsDate(now())}`, `DTSTART:${icsDate(r.at)}`, `DTEND:${icsDate(r.at + 15 * 6e4)}`,
+    `SUMMARY:${icsEsc(title)}`];
+  if (desc) L.push(`DESCRIPTION:${icsEsc(desc)}`);
+  if (rule) L.push(`RRULE:${rule}`);
+  L.push('BEGIN:VALARM', 'ACTION:DISPLAY', `DESCRIPTION:${icsEsc(title)}`, 'TRIGGER:PT0S', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR');
+  return L.map(icsFold).join('\r\n') + '\r\n';
+}
+async function addToCalendar(n) {
+  const ics = makeICS(n);
+  if (isIOS()) {
+    try {
+      const a = document.createElement('a');
+      a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+      a.target = '_blank'; a.rel = 'noopener';
+      document.body.append(a); a.click(); a.remove();
+      return 'saved';
+    } catch { /* on tente le partage */ }
+  }
+  return deliver(new Blob([ics], { type: 'text/calendar' }), fileBase(n) + '.ics', 'text/calendar', (n.title || 'Rappel').trim());
+}
+
+/* Déclenchement : vérifie à l'ouverture, au retour dans l'app et à l'heure prévue */
+let remTimer = 0;
+async function notify(n) {
+  const title = (n.title || '').trim() || 'Rappel', body = n.body.trim().slice(0, 140) || n.items.filter(i => !i.done).map(i => i.text).slice(0, 4).join(' · ') || 'Touche pour ouvrir ta note.';
+  if (document.visibilityState === 'visible') snack('⏰ ' + title, 'Ouvrir', () => open(n.id), 9000);
+  if (notifState() !== 'granted') return;
+  try {
+    const reg = navigator.serviceWorker && await navigator.serviceWorker.getRegistration();
+    if (reg) await reg.showNotification(title, { body, tag: 'rem-' + n.id, data: { id: n.id }, icon: 'icons/icon-192.png', badge: 'icons/icon-192.png' });
+    else new Notification(title, { body, tag: 'rem-' + n.id });
+  } catch { /* notification refusée par le système */ }
+}
+function updateBadge() {
+  const due = Object.values(S.notes).filter(isDue).length;
+  try { if (navigator.setAppBadge) (due ? navigator.setAppBadge(due) : navigator.clearAppBadge()).catch(() => {}); } catch {}
+}
+function checkReminders() {
+  const t = now(); let changed = false;
+  Object.values(S.notes).forEach(n => {
+    const r = n.reminder; if (!r || r.fired || r.at > t) return;
+    if (t - r.at < 36 * 36e5) notify(n);
+    if (r.repeat && r.repeat !== 'none') { let a = r.at; while (a <= t) a = nextOcc(a, r.repeat); n.reminder = { ...r, at: a, fired: false }; }
+    else n.reminder = { ...r, fired: true };
+    queueRemote(n.id); changed = true;
+  });
+  if (changed) { persist(); scheduleHome(); const c = cur(); if (c && UI.cur && openView === 'editor') renderEdMeta(c); }
+  updateBadge();
+}
+function scheduleReminders() {
+  clearTimeout(remTimer);
+  checkReminders();
+  const next = Object.values(S.notes).filter(n => n.reminder && !n.reminder.fired && n.reminder.at > now()).map(n => n.reminder.at).sort((a, b) => a - b)[0];
+  const wait = next ? Math.min(next - now() + 250, 30 * 6e4) : 30 * 6e4;
+  remTimer = setTimeout(scheduleReminders, Math.max(1000, wait));
+}
+
 /* ================= Réglages ================= */
 function settingsSheet() {
   const st = S.settings;
@@ -1645,6 +1929,8 @@ function settingsSheet() {
       <button type="button" data-mode="auto" aria-pressed="${st.mode === 'auto'}"><span class="ms">contrast</span>Auto</button>
       <button type="button" data-mode="light" aria-pressed="${st.mode === 'light'}"><span class="ms">light_mode</span>Clair</button>
       <button type="button" data-mode="dark" aria-pressed="${st.mode === 'dark'}"><span class="ms">dark_mode</span>Sombre</button></div></div>
+    <div class="field"><div class="flabel">Police de l’app</div><div class="tiles">${Object.entries(UI_FONTS).map(([k, f]) => `<button type="button" class="tile" data-uifont="${k}" aria-pressed="${(st.uiFont || 'flex') === k}"><span class="aa" style="font-family:${f.css};font-weight:${f.w}">Aa</span>${f.name}</button>`).join('')}</div>
+      <p class="hint">Les notes en écriture « Standard » suivent cette police, PDF compris.</p></div>
     <div class="field"><label class="flabel" for="sig">Signature en bas des PDF</label><input class="tfield" id="sig" maxlength="40" value="${esc(st.signature)}" placeholder="Ton nom"></div>
     <div class="field"><div class="flabel">Sauvegarde</div>
       <div class="sheet-actions" style="margin-top:0">
@@ -1657,6 +1943,8 @@ function settingsSheet() {
       const s = e.target.closest('[data-seed]'), m = e.target.closest('[data-mode]');
       if (s) { st.seed = s.dataset.seed; persist(); applyTheme(); renderHome(); $$('.seed', body).forEach(b => b.setAttribute('aria-pressed', b === s)); return; }
       if (m) { st.mode = m.dataset.mode; persist(); applyTheme(); $$('[data-mode]', body).forEach(b => b.setAttribute('aria-pressed', b === m)); return; }
+      const uf = e.target.closest('[data-uifont]');
+      if (uf) { st.uiFont = uf.dataset.uifont; persist(); applyTheme(); renderHome(); $$('[data-uifont]', body).forEach(b => b.setAttribute('aria-pressed', b === uf)); return; }
       if (e.target.closest('#bkOut')) {
         const data = JSON.stringify({ app: 'carnet-mxdukpe', version: 1, exportedAt: new Date().toISOString(), notes: Object.values(S.notes) });
         const d = new Date(), name = `carnet-sauvegarde-${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}.json`;
@@ -1664,7 +1952,7 @@ function settingsSheet() {
         $('#bkHint').textContent = r === 'saved' || r === 'shared' ? 'Sauvegarde prête.' : r === 'cancel' ? 'Export annulé.' : 'Export impossible depuis cette fenêtre.';
       }
     });
-    body.addEventListener('input', e => { if (e.target.id === 'sig') { st.signature = e.target.value; persist(); } });
+    body.addEventListener('input', e => { if (e.target.id === 'sig') { st.signature = e.target.value; persist(); applyTheme(); } });
     body.addEventListener('change', async e => {
       if (e.target.id !== 'bkIn' || !e.target.files[0]) return;
       try {
@@ -1723,6 +2011,11 @@ function init() {
   setSync('local');
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch {}
   setInterval(() => { if (!openView) renderHome(); }, 60000);
+  scheduleReminders();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { scheduleReminders(); if (!openView) renderHome(); } });
+  if (navigator.serviceWorker) navigator.serviceWorker.addEventListener('message', e => { const id = e.data && e.data.open; if (id && S.notes[id] && UI.cur !== id) { if (openView) closeCurrent(); open(id); } });
+  const hashId = (location.hash.match(/^#n-([\w-]+)$/) || [])[1];
+  if (hashId && S.notes[hashId]) { try { history.replaceState(null, '', location.pathname); } catch {} open(hashId); }
   connectRemote();
 }
 init();

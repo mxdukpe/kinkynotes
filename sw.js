@@ -1,5 +1,5 @@
 /* Carnet — service worker : coque de l'app en cache, polices en stale-while-revalidate. */
-const VERSION = 'carnet-v1';
+const VERSION = 'carnet-v2';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'vendor/jspdf.umd.min.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
@@ -35,4 +35,15 @@ self.addEventListener('fetch', e => {
     if (r.ok) { const copy = r.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }
     return r;
   })));
+});
+
+// Touche sur une notification de rappel : ouvre (ou ramène) Carnet sur la bonne note
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const id = e.notification.data && e.notification.data.id;
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    const client = list.find(c => new URL(c.url).origin === location.origin);
+    if (client) { if (id) client.postMessage({ open: id }); return client.focus(); }
+    return self.clients.openWindow(id ? './#n-' + id : './');
+  }));
 });
