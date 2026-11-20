@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/banner.png" alt="Carnet — notes, listes et dessins partagés en PDF" width="100%">
+</p>
+
 # Carnet
 
 Carnet personnel en Material 3 Expressive : notes, listes à cocher et dessins, avec partage en PDF soigné (cases cochables) ou en image.
